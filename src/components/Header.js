@@ -1,13 +1,18 @@
 import React from 'react'
-
-import { faHeart } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { IconButton } from '@material-ui/core';
+import FavoriteIcon from '@material-ui/icons/Favorite';
+import PersonIcon from '@material-ui/icons/Person';
 
 const Header = ({title}) => {
     return (
         <header>
+            <IconButton  size='medium'>
+                <PersonIcon style={{ fontSize: 35}}/>
+            </IconButton>
             <h1 className="app-title"> {title} </h1>
-            <a href="/"> <FontAwesomeIcon icon={faHeart} size="2x" style={{ color: 'white' }}  /> </a>
+            <IconButton  size='medium'>
+                <FavoriteIcon style={{ fontSize: 30}}/>
+            </IconButton>
         </header>
     )
 }
