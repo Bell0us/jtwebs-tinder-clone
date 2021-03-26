@@ -1,9 +1,9 @@
-import React, {useState, useEffect} from 'react'
-import TinderCard from 'react-tinder-card'
+import React from 'react';
+import TinderCard from 'react-tinder-card';
 
-const TinderCards = () => {
-    // ! Test 'JSON'
-    /* const [people, setPeople] = useState([
+const TinderCards = ({ people, liked, disliked, setLiked, setDisliked }) => {
+  // ! Test 'JSON'
+  /* const [people, setPeople] = useState([
         {
             id: 1,
             name: 'John',
@@ -16,42 +16,36 @@ const TinderCards = () => {
         }
     ]); */
 
-
-    // ! Fetching JSON -> limited by userID = 1 -> too many data -> laggy
-    const [people,setPeople]=useState([]);
-    const getPeople=()=>{
-        fetch('https://jsonplaceholder.typicode.com/photos?albumId=1'
-        ,{
-        headers : { 
-            'Content-Type': 'application/json',
-            'Accept': 'application/json'
-        }
-        }
-        )
-        .then(function(response){
-            return response.json();
-        })
-        .then(function(myJson) {
-            setPeople(myJson)
-        });
+  // ! setting current swiped cart as state to display it on history page
+  const swiped = (direction, id, name, picture) => {
+    let item = {
+      id,
+      name,
+      picture,
+    };
+    if (direction === 'left') {
+      setLiked(item);
+    } else {
+      setDisliked(item);
     }
-    useEffect(()=>{
-        getPeople()
-    },[])
+  };
 
-    return (
-        <div className="card-container">
-            {people.map(person => (
-                <TinderCard preventSwipe={['up', 'down']} className="tinder-card" >
-                    <div className="card" style={{backgroundImage: `url(${person.url})`}}>
-                        <h3 className="card-title">
-                            {person.title}
-                        </h3>
-                    </div>
-                </TinderCard>
-            ))}
-        </div>
-    )
-}
+  return (
+    <div className="card-container">
+      {people.map((person) => (
+        <TinderCard
+          preventSwipe={['up', 'down']}
+          className="tinder-card"
+          key={person.id}
+          onSwipe={(dir) => swiped(dir, person.id, person.title, person.url)}
+        >
+          <div className="card" style={{ backgroundImage: `url(${person.url})` }}>
+            <h3 className="card-title">{person.title}</h3>
+          </div>
+        </TinderCard>
+      ))}
+    </div>
+  );
+};
 
-export default TinderCards
+export default TinderCards;
