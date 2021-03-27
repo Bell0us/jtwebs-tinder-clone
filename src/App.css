@@ -32,6 +32,10 @@ header {
   font-size: 40px;
 }
 
+.app-title img {
+  transform: translateY(3px);
+}
+
 .dark-light-switchers {
   display: flex;
   flex-flow: row nowrap;

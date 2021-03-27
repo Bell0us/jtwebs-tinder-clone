@@ -31,7 +31,16 @@ const Header = ({ title }) => {
 
   return (
     <header>
-      <h1 className="app-title"> {title} </h1>
+      <h1 className="app-title">
+        {' '}
+        <img
+          src="https://cdn.worldvectorlogo.com/logos/tinder-2.svg"
+          alt="tinder-icon"
+          width="30px"
+          height="auto"
+        />{' '}
+        {title}{' '}
+      </h1>
       <div className="dark-light-switchers">
         <IconButton className="switch active day" size="small" style={{ padding: '8px' }}>
           <WbSunnyIcon style={{ fontSize: 30, color: '#FFD44C' }} />

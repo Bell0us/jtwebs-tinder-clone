@@ -35,9 +35,9 @@ const Help = () => {
           </dt>
           <dd className="help-content">
             <WbSunnyIcon className="move-down lighten pad" /> Via this button on header you can
-            change to light mode <br />
+            switch to light mode <br />
             <Brightness3Icon className="move-down lighten pad" /> Via this button on header you can
-            change to dark mode
+            switch to dark mode
           </dd>
         </dl>
         <dl className="action-history help-tile">
