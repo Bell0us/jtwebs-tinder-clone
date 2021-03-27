@@ -12,24 +12,22 @@ const Header = ({ title }) => {
   const body = document.body;
 
   // ! user clicked on light mode switcher
-  light
-    ? light.addEventListener('click', () => {
-        light.classList.add('active');
-        dark.classList.remove('active');
-        body.classList.remove('body-dark');
-        app.classList.remove('app-dark');
-      })
-    : console.log('wait');
+  light &&
+    light.addEventListener('click', () => {
+      light.classList.add('active');
+      dark.classList.remove('active');
+      body.classList.remove('body-dark');
+      app.classList.remove('app-dark');
+    });
 
   // ! user clicked on dark mode switcher
-  dark
-    ? dark.addEventListener('click', () => {
-        dark.classList.add('active');
-        light.classList.remove('active');
-        body.classList.add('body-dark');
-        app.classList.add('app-dark');
-      })
-    : console.log('wait');
+  dark &&
+    dark.addEventListener('click', () => {
+      dark.classList.add('active');
+      light.classList.remove('active');
+      body.classList.add('body-dark');
+      app.classList.add('app-dark');
+    });
 
   return (
     <header>

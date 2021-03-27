@@ -1,7 +1,7 @@
 import React from 'react';
 import TinderCard from 'react-tinder-card';
 
-const TinderCards = ({ people, liked, disliked, setLiked, setDisliked }) => {
+const TinderCards = ({ people, setLiked, setDisliked }) => {
   // ! Test 'JSON'
   /* const [people, setPeople] = useState([
         {
@@ -17,11 +17,12 @@ const TinderCards = ({ people, liked, disliked, setLiked, setDisliked }) => {
     ]); */
 
   // ! setting current swiped cart as state to display it on history page
-  const swiped = (direction, id, name, picture) => {
+  const swiped = (direction, id, name, picture, smallPicture) => {
     let item = {
       id,
       name,
       picture,
+      smallPicture,
     };
     if (direction === 'left') {
       setLiked(item);
@@ -37,7 +38,7 @@ const TinderCards = ({ people, liked, disliked, setLiked, setDisliked }) => {
           preventSwipe={['up', 'down']}
           className="tinder-card"
           key={person.id}
-          onSwipe={(dir) => swiped(dir, person.id, person.title, person.url)}
+          onSwipe={(dir) => swiped(dir, person.id, person.title, person.url, person.thumbnailUrl)}
         >
           <div className="card" style={{ backgroundImage: `url(${person.url})` }}>
             <h3 className="card-title">{person.title}</h3>

@@ -62,6 +62,8 @@ header {
   margin: auto;
   position: relative;
 
+  height: 450px;
+
   margin-top: 6rem;
 }
 
@@ -87,7 +89,7 @@ header {
 
 .controls {
   position: relative;
-  top: 510px;
+  top: 60px;
 
   display: flex;
   flex-flow: row nowrap;
@@ -170,7 +172,9 @@ header {
 
   text-align: left;
 
-  padding: 1rem 2rem;
+  padding: .5rem 2rem;
+
+  height: 610px;
 }
 
 .help-header {
@@ -192,16 +196,17 @@ header {
   display: flex;
   flex-flow: column wrap;
   justify-content: space-between;
-  height: 450px;
   width: 100%;
 
-  margin: 2rem 0 1.65rem 0;  
+  margin: 1rem 0 1.65rem 0;  
 }
 
 .help-tile {
   border-bottom: 1px solid rgba(0, 0, 0, .15);
   padding-bottom: .7rem;
   width: 100%;
+
+  margin-bottom: 1rem;
 }
 
 .help-tile:last-of-type {
@@ -258,4 +263,57 @@ header {
 .app-dark {
   background-color: rgb(75, 75, 75);
   color: rgb(209, 209, 209);
+}
+
+.grabbing {
+  cursor: grabbing;
+}
+
+.all-history {
+  margin-top: 2rem;
+  height: 550px;
+  overflow-y: scroll;
+
+  margin-bottom: 26px;
+}
+
+.all-title {
+  margin-bottom: 1rem;
+}
+
+.err-card-all {
+  margin: auto;
+  margin-top: 5rem;
+}
+
+/* width */
+::-webkit-scrollbar {
+  width: 4px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #afafaf;
+  border-radius: 15px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: rgb(112, 112, 112);
+  border-radius: 15px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: rgb(58, 58, 58);
+}
+
+.history-controls {
+  width: 260px;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  align-items: center;
+
+  margin: auto;
 }

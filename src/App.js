@@ -5,12 +5,17 @@ import History from './components/History';
 import Help from './components/Help';
 import Profile from './components/Profile';
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { IconButton } from '@material-ui/core';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import HomeIcon from '@material-ui/icons/Home';
 import PersonIcon from '@material-ui/icons/Person';
 import HelpOutlineIcon from '@material-ui/icons/HelpOutline';
+import AllLikes from './components/AllLikes';
+import AllDislikes from './components/AllDislikes';
+import ThumbUpAltIcon from '@material-ui/icons/ThumbUpAlt';
+import ThumbDownAltIcon from '@material-ui/icons/ThumbDownAlt';
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 
 function App() {
   // ! Fetching JSON -> limited by userID = 1 -> too many data -> laggy
@@ -37,6 +42,37 @@ function App() {
   const [liked, setLiked] = useState();
   const [disliked, setDisliked] = useState();
 
+  // ! storing all likes / dislikes
+  let allLikes = useRef([]);
+  let allDislikes = useRef([]);
+
+  // ! checking if undefined than concat
+  liked !== undefined && (allLikes.current = allLikes.current.concat(liked));
+  disliked !== undefined && (allDislikes.current = allDislikes.current.concat(disliked));
+
+  // ! filtering duplicates
+  const seen = new Set();
+  const seenDis = new Set();
+
+  const filteredLikes = allLikes.current.filter((el) => {
+    const duplicate = seen.has(el.id);
+    seen.add(el.id);
+    return !duplicate;
+  });
+
+  const filteredDislikes = allDislikes.current.filter((el) => {
+    const duplicate = seenDis.has(el.id);
+    seenDis.add(el.id);
+    return !duplicate;
+  });
+
+  // ! filtering cards so they show up only once
+  const filteredPeople = people.filter(
+    (ar) =>
+      !filteredLikes.find((rm) => rm.id === ar.id) &&
+      !filteredDislikes.find((rm) => rm.id === ar.id)
+  );
+
   // ! User for mockup profile page
   const user = {
     photo:
@@ -55,7 +91,7 @@ function App() {
           <Route exact path="/">
             {/*  Cards */}
             <TinderCards
-              people={people}
+              people={filteredPeople}
               setLiked={setLiked}
               setDisliked={setDisliked}
               liked={liked}
@@ -83,11 +119,80 @@ function App() {
           {/* Like / Dislike history "page" */}
           <Route path="/history">
             <History liked={liked} disliked={disliked} />
-            <Link to="/">
-              <IconButton size="medium" style={{ boxShadow: '0 0 10px 4px rgba(0, 0, 0, .15)' }}>
-                <HomeIcon style={{ fontSize: 40, color: '#FF5C30' }} />
-              </IconButton>
-            </Link>
+
+            <div className="history-controls">
+              <Link to="/all-likes">
+                <IconButton size="medium" style={{ boxShadow: '0 0 10px 4px rgba(0, 0, 0, .15)' }}>
+                  <ThumbUpAltIcon style={{ fontSize: 40, color: '#3F88E8' }} />
+                </IconButton>
+              </Link>
+              <Link to="/">
+                <IconButton size="medium" style={{ boxShadow: '0 0 10px 4px rgba(0, 0, 0, .15)' }}>
+                  <HomeIcon style={{ fontSize: 40, color: '#FF5C30' }} />
+                </IconButton>
+              </Link>
+              <Link to="/all-dislikes">
+                <IconButton size="medium" style={{ boxShadow: '0 0 10px 4px rgba(0, 0, 0, .15)' }}>
+                  <ThumbDownAltIcon style={{ fontSize: 40, color: '#8F52FF' }} />
+                </IconButton>
+              </Link>
+            </div>
+          </Route>
+          {/* All likes page */}
+          <Route path="/all-likes">
+            <AllLikes allLikes={filteredLikes} />
+
+            <div className="history-controls">
+              <Link to="/history">
+                <IconButton size="medium" style={{ boxShadow: '0 0 10px 4px rgba(0, 0, 0, .15)' }}>
+                  <ArrowBackIcon style={{ fontSize: 40, color: '#3F88E8' }} />
+                </IconButton>
+              </Link>
+              <Link to="/">
+                <IconButton
+                  size="medium"
+                  className="fixed-btn"
+                  style={{
+                    boxShadow: '0 0 10px 4px rgba(0, 0, 0, .15)',
+                  }}
+                >
+                  <HomeIcon style={{ fontSize: 40, color: '#FF5C30' }} />
+                </IconButton>
+              </Link>
+              <Link to="/all-dislikes">
+                <IconButton size="medium" style={{ boxShadow: '0 0 10px 4px rgba(0, 0, 0, .15)' }}>
+                  <ThumbDownAltIcon style={{ fontSize: 40, color: '#8F52FF' }} />
+                </IconButton>
+              </Link>
+            </div>
+          </Route>
+          {/* All dislikes page */}
+          <Route path="/all-dislikes">
+            <AllDislikes allDislikes={filteredDislikes} />
+
+            <div className="history-controls">
+              <Link to="/history">
+                <IconButton size="medium" style={{ boxShadow: '0 0 10px 4px rgba(0, 0, 0, .15)' }}>
+                  <ArrowBackIcon style={{ fontSize: 40, color: '#3F88E8' }} />
+                </IconButton>
+              </Link>
+              <Link to="/">
+                <IconButton
+                  size="medium"
+                  className="fixed-btn"
+                  style={{
+                    boxShadow: '0 0 10px 4px rgba(0, 0, 0, .15)',
+                  }}
+                >
+                  <HomeIcon style={{ fontSize: 40, color: '#FF5C30' }} />
+                </IconButton>
+              </Link>
+              <Link to="/all-likes">
+                <IconButton size="medium" style={{ boxShadow: '0 0 10px 4px rgba(0, 0, 0, .15)' }}>
+                  <ThumbUpAltIcon style={{ fontSize: 40, color: '#8F52FF' }} />
+                </IconButton>
+              </Link>
+            </div>
           </Route>
           {/* Help page */}
           <Route path="/help">
